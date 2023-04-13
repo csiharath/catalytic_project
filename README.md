@@ -9,13 +9,13 @@
 ## Usage 
 
 `
-python3 model_correction.py -m <sbmlmodel> -k -g -d <dataset> -o <output>
+python3 model_correction.py -m <sbmlmodel> -k -g -d <dataset>
 ` 
 ### Required argument
 
 * `-m, --model <sbmlmodel>` : Metabolic model in sbml format.
 
-### Otptional arguments
+### Optional arguments
 
 * `-k, --keggid` : Option to add kegg id in the model. Requires to add a dataset with option `--data`.
 
@@ -27,4 +27,3 @@ python3 model_correction.py -m <sbmlmodel> -k -g -d <dataset> -o <output>
   - the corresponding KEGG ID
   - a list og associated genes
 
-* `-o, --output <output>` :
