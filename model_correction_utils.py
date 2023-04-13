@@ -40,7 +40,7 @@ def add_gene_reaction_rule(model, data:pd.DataFrame):
 
                 elif "/" in split_gene_name:
                     genes = split_gene_name.split("/")
-                    print(genes, type(genes))
+                    # print(genes, type(genes))
                     
                     for gene_name in genes :
                         reaction2genes[reaction_key].append(gene_name)
@@ -161,13 +161,14 @@ def find_compounds_AAseq(model, list_of_enzymes, dict_seq = {}):
                     #aa=False --> The function will try to find another KEGG orthology ID that contains ECO organism Gene IDS.        
 
         else: 
-            Errors.append(f"\n[!]KEGG ID {enzyme[1]} is not found in kegg.\n\n===\n")
+            Errors.append(f"[!]KEGG ID {enzyme[1]} is not found in kegg.\n\n===")
 
+    print(f"\nSUCCESSES:")
     for success_message in Success:
-        print(f"\nSUCCESSES:")
         print(f"\n{success_message}")
+
+    print(f"\nERRORS:")
     for error_message in Errors:
-        print(f"\nERRORS:")
         print(f"\n{error_message}")
 
     return dict_seq

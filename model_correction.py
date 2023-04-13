@@ -1,12 +1,11 @@
 """
 Preprocessing data for km prediction
 Usage:
-    model_correction.py -m <sbmlmodel> -k -g -d <dataset> -o <output>
+    model_correction.py -m <sbmlmodel> -k -g -d <dataset>
 
 Positional arguments:
     sbmlmodel            Metabolic model in sbml format.
     dataset              Csv file containing colums of reaction's name in the model, the corresponding KEGG ID, and a list og associated genes
-    output               Name of corrected model
 """
 
 import argparse
@@ -44,11 +43,6 @@ parser.add_argument('-d', '--data', dest='dataset', action='store', default='',\
             - the corresponding KEGG ID
             - a list og associated genes
         \n'''))
-parser.add_argument('-o', '--output', dest='output', action='store', default='new_model',\
-    help=textwrap.dedent('''\
-        Name of the corrected model.
-        By default, the value is "new_model"
-        \n'''))
     
 ############################# Raising parsing errors #############################
 
@@ -67,7 +61,6 @@ if args.kegg_id or args.gene_name:
 model_file = args.sbmlmodel
 add_keggid = args.kegg_id
 add_genes = args.gene_name
-output_model = args.output
 
 model, errors = cobra.io.validate_sbml_model(model_file)
 
@@ -86,7 +79,8 @@ if add_genes:
     mcu.add_gene_reaction_rule(model, df_react)
 
 if add_keggid or add_genes:
-    cobra.io.write_sbml_model(model, "Models/"+model_file.split(".xml")[0]+"updated.xml")
+    print("ok")
+    cobra.io.write_sbml_model(model, filename="Models/"+model_file.split("/")[-1].split(".xml")[0]+"_updated.xml")
 
 ######################## Defining km prediction parameters #######################
 
