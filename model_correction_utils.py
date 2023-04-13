@@ -3,6 +3,7 @@ import requests
 import pandas as pd
 # import numpy
 from collections import defaultdict
+from tqdm import tqdm
 
 
 def add_kegg_id_to_model(model, dataframe_react):
@@ -63,13 +64,14 @@ def add_gene_reaction_rule(model, data:pd.DataFrame):
 
 
 def find_compounds_AAseq(model, list_of_enzymes, dict_seq = {}):
-    for enzyme in list_of_enzymes:
-        print(f"Looking for compounds and AA sequence of {enzyme[0]}:{enzyme[1]}")
+    for enzyme in tqdm(list_of_enzymes):
         aa = False
         ortho = False
         ko = False
         seq = ""
         url = "http://rest.kegg.jp/get/"
+        Errors = []
+        Success = []
 
         # First request to get list of compounds and the KEGG Orthology ID from the KEGG ID
         r1 = requests.get(url=url+enzyme[1])
@@ -86,13 +88,12 @@ def find_compounds_AAseq(model, list_of_enzymes, dict_seq = {}):
 
                 # Line(s) with KEGG Orthology ID to test
                 elif 'ORTHOLOGY' in line or ortho:
-                    # print(line)
 
                     if ortho:
                         id = line.split()[0]
                         if id == 'DBLINKS' or id =='///':
                             ko = True
-                            print(f"\n[!]KEGG ID {enzyme[1]} has no corresponding KEGG Orthology ID for organism ece\n\n===\n")
+                            Errors.append(f"\n[!]KEGG ID {enzyme[1]} has no corresponding KEGG Orthology ID for organism eco\n\n===\n")
                             break
                     else:
                         id = line.split()[1]
@@ -125,7 +126,7 @@ def find_compounds_AAseq(model, list_of_enzymes, dict_seq = {}):
                                     reac_obj = model.reactions.get_by_id(enzyme[0])
 
                                     if gID.lower() in [str(g.id).lower() for g in reac_obj.genes]:
-                                        print(f"\n[>]Found {gID} gene id in reaction {reac_obj.name}. Adding its aa sequence to the dictionary.\n\n===\n")
+                                        Success.append(f"\n[>]Found {gID} gene id in reaction {reac_obj.name}. Adding its aa sequence to the dictionary.\n\n===\n")
                                     
                                         # Third request to get AA sequence from CDS ID
                                         r3 = requests.get(url=url+"eco:"+idZ)
@@ -156,11 +157,15 @@ def find_compounds_AAseq(model, list_of_enzymes, dict_seq = {}):
                     break
                 elif ortho:
                     aa = False
-                    print(f"Trying another KEGG Orthology ID for {enzyme[0]}:{enzyme[1]}")
-        
+                    #aa=False --> The function will try to find another KEGG orthology ID that contains ECO organism Gene IDS.        
 
         else: 
-            print(f"\n[!]KEGG ID {enzyme[1]} is not found in kegg.\n\n===\n")
+            Errors.append(f"\n[!]KEGG ID {enzyme[1]} is not found in kegg.\n\n===\n")
+            
+    for success_message in Success:
+        print(success_message)
+    for error_message in Errors:
+        print(error_message)
 
     return dict_seq
 
