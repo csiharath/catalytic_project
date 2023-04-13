@@ -64,14 +64,15 @@ def add_gene_reaction_rule(model, data:pd.DataFrame):
 
 
 def find_compounds_AAseq(model, list_of_enzymes, dict_seq = {}):
+    Errors = []
+    Success = []
+
     for enzyme in tqdm(list_of_enzymes):
         aa = False
         ortho = False
         ko = False
         seq = ""
         url = "http://rest.kegg.jp/get/"
-        Errors = []
-        Success = []
 
         # First request to get list of compounds and the KEGG Orthology ID from the KEGG ID
         r1 = requests.get(url=url+enzyme[1])
@@ -161,11 +162,13 @@ def find_compounds_AAseq(model, list_of_enzymes, dict_seq = {}):
 
         else: 
             Errors.append(f"\n[!]KEGG ID {enzyme[1]} is not found in kegg.\n\n===\n")
-            
+
     for success_message in Success:
-        print(success_message)
+        print(f"\nSUCCESSES:")
+        print(f"\n{success_message}")
     for error_message in Errors:
-        print(error_message)
+        print(f"\nERRORS:")
+        print(f"\n{error_message}")
 
     return dict_seq
 

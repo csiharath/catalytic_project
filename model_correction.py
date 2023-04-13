@@ -69,7 +69,7 @@ add_keggid = args.kegg_id
 add_genes = args.gene_name
 output_model = args.output
 
-model = cobra.io.read_sbml_model(model_file)
+model, errors = cobra.io.validate_sbml_model(model_file)
 
 ####################### Adding informations into the model #######################
 
@@ -84,6 +84,9 @@ if add_keggid:
 if add_genes:
     print(f"Adding genes names to {model_file} model.")
     mcu.add_gene_reaction_rule(model, df_react)
+
+if add_keggid or add_genes:
+    cobra.io.write_sbml_model(model, "Models/"+model_file.split(".xml")[0]+"updated.xml")
 
 ######################## Defining km prediction parameters #######################
 
