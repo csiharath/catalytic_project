@@ -79,8 +79,7 @@ if add_genes:
     mcu.add_gene_reaction_rule(model, df_react)
 
 if add_keggid or add_genes:
-    print("ok")
-    cobra.io.write_sbml_model(model, filename="Models/"+model_file.split("/")[-1].split(".xml")[0]+"_updated.xml")
+    cobra.io.write_sbml_model(model, filename="../data/Models/"+model_file.split("/")[-1].split(".xml")[0]+"_updated.xml")
 
 ######################## Defining km prediction parameters #######################
 
@@ -102,13 +101,13 @@ dict_compounds = mcu.build_dict_compounds(unique_compounds)
 
 ##################################################################################
 
-with open("data/enzyme.p", "wb") as e:
+with open("../data/enzyme.p", "wb") as e:
     enzymes = pickle.dump(enzymes, e)
 
-with open("data/substrat.p", "wb") as s:
+with open("../data/substrat.p", "wb") as s:
     substrats = pickle.dump(substrates, s)
 
-with open("data/compound.p", "wb") as c:
+with open("../data/compound.p", "wb") as c:
     dict_compounds = pickle.dump(dict_compounds, c)
 
 print("--- %s seconds ---" % (time.time() - start_time))
