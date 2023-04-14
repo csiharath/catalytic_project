@@ -102,12 +102,12 @@ dict_compounds = mcu.build_dict_compounds(unique_compounds)
 ##################################################################################
 
 with open("data/enzyme.p", "wb") as e:
-    enzymes = pickle.dump(enzymes, e)
+    pickle.dump(enzymes, e)
 
 with open("data/substrat.p", "wb") as s:
-    substrats = pickle.dump(substrates, s)
+    pickle.dump(substrates, s)
 
 with open("data/compound.p", "wb") as c:
-    dict_compounds = pickle.dump(dict_compounds, c)
+    pickle.dump(dict_compounds, c)
 
 print("--- %s seconds ---" % (time.time() - start_time))
