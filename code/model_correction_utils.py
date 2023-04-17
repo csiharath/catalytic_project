@@ -67,6 +67,8 @@ def find_compounds_AAseq(model, list_of_enzymes, dict_seq = {}):
     Errors = []
     Success = []
 
+    aaseq = {}
+
     for enzyme in tqdm(list_of_enzymes):
         aa = False
         ortho = False
@@ -141,6 +143,7 @@ def find_compounds_AAseq(model, list_of_enzymes, dict_seq = {}):
                                                     aa = True
                                                     
                                                 elif 'NTSEQ' in line:
+                                                    aaseq[seq] = enzyme[0]
                                                     break
 
                                                 elif aa:
@@ -161,17 +164,17 @@ def find_compounds_AAseq(model, list_of_enzymes, dict_seq = {}):
                     #aa=False --> The function will try to find another KEGG orthology ID that contains ECO organism Gene IDS.        
 
         else: 
-            Errors.append(f"[!]KEGG ID {enzyme[1]} is not found in kegg.\n\n===")
+            Errors.append(f"[!]KEGG ID {enzyme[1]} is not found in kegg.\n===")
 
     print(f"\nSUCCESSES:")
     for success_message in Success:
-        print(f"\n{success_message}")
+        print(f"{success_message}")
 
     print(f"\nERRORS:")
     for error_message in Errors:
-        print(f"\n{error_message}")
+        print(f"{error_message}")
 
-    return dict_seq
+    return dict_seq, aaseq
 
 
 def create_km_arguments(dict_km_param, list_substrat = [], list_enzyme = []):

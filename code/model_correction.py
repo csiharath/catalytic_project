@@ -79,7 +79,8 @@ if add_genes:
     mcu.add_gene_reaction_rule(model, df_react)
 
 if add_keggid or add_genes:
-    cobra.io.write_sbml_model(model, filename="data/Models/"+model_file.split("/")[-1].split(".xml")[0]+"_updated.xml")
+    cobra.io.write_sbml_model(model, filename=model_file.split(".xml")[0]+"_updated.xml")
+
 
 ######################## Defining km prediction parameters #######################
 
@@ -87,6 +88,8 @@ enzyme_list = [(enzyme.id, enzyme.notes['kegg_id']) for enzyme in model.reaction
 
 print("Looking for km predection parameters in database.")
 dict_km_parameters = mcu.find_compounds_AAseq(model, enzyme_list)
+dict_aaseq = dict_km_parameters[1]
+dict_km_parameters = dict_km_parameters[0]
 
 km_arguments = mcu.create_km_arguments(dict_km_parameters)
 
@@ -101,13 +104,34 @@ dict_compounds = mcu.build_dict_compounds(unique_compounds)
 
 ##################################################################################
 
-with open("data/enzyme.p", "wb") as e:
+print(len(enzymes))
+print(len(substrates))
+print(len(dict_aaseq.keys()))
+print(len(dict_compounds.keys()))
+
+# with open("data/enzyme.p", "wb") as e:
+#     pickle.dump(enzymes, e)
+
+# with open("data/substrat.p", "wb") as s:
+#     pickle.dump(substrates, s)
+
+# with open("data/compound.p", "wb") as c:
+#     pickle.dump(dict_compounds, c)
+
+# with open("data/aaseq.p", "wb") as aa:
+#     pickle.dump(dict_aaseq, aa)
+
+# Windows :
+with open("data\enzyme.p", "wb") as e:
     pickle.dump(enzymes, e)
 
-with open("data/substrat.p", "wb") as s:
+with open("data\substrat.p", "wb") as s:
     pickle.dump(substrates, s)
 
-with open("data/compound.p", "wb") as c:
+with open("data\compound.p", "wb") as c:
     pickle.dump(dict_compounds, c)
+
+with open("data\seq.p", "wb") as aa:
+    pickle.dump(dict_aaseq, aa)
 
 print("--- %s seconds ---" % (time.time() - start_time))
