@@ -16,7 +16,7 @@ import cobra
 import pandas as pd
 import numpy as np
 import pickle
-import model_correction_utils as mcu
+import model_catalytic_utils as mcu
 
 
 ############################# Command Line Interface #############################
@@ -109,7 +109,7 @@ elif kcat:
 dict_km_parameters = mcu.find_compounds_AAseq(model, enzyme_list)
 dict_aaseq = dict_km_parameters[1]
 dict_km_parameters = dict_km_parameters[0]
-
+dict_genes_id = dict_km_parameters[2]
 arguments = mcu.create_km_kcat_arguments(dict_km_parameters, km, kcat)
 
 km_sub = arguments[0]
@@ -128,46 +128,51 @@ dict_compounds = mcu.build_dict_compounds(unique_compounds)
 
 ##################################################################################
 
-# if km:
-#     with open("data/km_enzyme.p", "wb") as kme:
-#         pickle.dump(km_enz, kme)
-
-#     with open("data/km_substrat.p", "wb") as kms:
-#         pickle.dump(km_sub, kms)
-
-# if kcat:
-#     with open("data/kcat_enzyme.p", "wb") as kcate:
-#         pickle.dump(kcat_enz, kcate)
-
-#     with open("data/kcat_substrat.p", "wb") as kcats:
-#         pickle.dump(kcat_sub, kcats)
-
-#     with open("data/kcat_product.p", "wb") as kcatp:
-#         pickle.dump(kcat_prod, kcatp)
-
-# Windows :
 if km:
-    with open("data\km_enzyme.p", "wb") as kme:
+    with open("data/km_enzyme.p", "wb") as kme:
         pickle.dump(km_enz, kme)
 
-    with open("data\km_substrat.p", "wb") as kms:
+    with open("data/km_substrat.p", "wb") as kms:
         pickle.dump(km_sub, kms)
 
 if kcat:
-    with open("data\kcat_enzyme.p", "wb") as kcate:
+    with open("data/kcat_enzyme.p", "wb") as kcate:
         pickle.dump(kcat_enz, kcate)
 
-    with open("data\kcat_substrat.p", "wb") as kcats:
+    with open("data/kcat_substrat.p", "wb") as kcats:
         pickle.dump(kcat_sub, kcats)
 
-    with open("data\kcat_product.p", "wb") as kcatp:
+    with open("data/kcat_product.p", "wb") as kcatp:
         pickle.dump(kcat_prod, kcatp)
 
-
-with open("data\compound.p", "wb") as c:
+with open("data/compound.p", "wb") as c:
     pickle.dump(dict_compounds, c)
 
-with open("data\seq.p", "wb") as aa:
+with open("data/seq.p", "wb") as aa:
     pickle.dump(dict_aaseq, aa)
+# Windows :
+# if km:
+#     with open("data\km_enzyme.p", "wb") as kme:
+#         pickle.dump(km_enz, kme)
+
+#     with open("data\km_substrat.p", "wb") as kms:
+#         pickle.dump(km_sub, kms)
+
+# if kcat:
+#     with open("data\kcat_enzyme.p", "wb") as kcate:
+#         pickle.dump(kcat_enz, kcate)
+
+#     with open("data\kcat_substrat.p", "wb") as kcats:
+#         pickle.dump(kcat_sub, kcats)
+
+#     with open("data\kcat_product.p", "wb") as kcatp:
+#         pickle.dump(kcat_prod, kcatp)
+
+
+# with open("data\compound.p", "wb") as c:
+#     pickle.dump(dict_compounds, c)
+
+# with open("data\seq.p", "wb") as aa:
+#     pickle.dump(dict_aaseq, aa)
 
 print("--- %s seconds ---" % (time.time() - start_time))

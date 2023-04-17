@@ -63,11 +63,16 @@ def add_gene_reaction_rule(model, data:pd.DataFrame):
     return reaction2genes
 
 
-def find_compounds_AAseq(model, list_of_enzymes, dict_seq = {}):
+def find_compounds_AAseq(model, list_of_enzymes):
+    """
+    model:cobra.core.model.Model object
+    list_of_enzymes:list(tuple) -> List of tuples containing model reaciton IDs and corresponding KEGG IDs.
+    """
     Errors = []
     Success = []
-
+    dict_seq = {}
     aaseq = {}
+    gene_id_dict = defaultdict(dict)
 
     for enzyme in tqdm(list_of_enzymes):
         aa = False
@@ -114,7 +119,6 @@ def find_compounds_AAseq(model, list_of_enzymes, dict_seq = {}):
 
                             # Line corresponding to the organism target (e.coli)
                             if 'ECO:' in line:
-                                ############# modifier pour verifier les sous unites #############
                                 
                                 #For each line, we select the ones corresponding to the organism's ID
                                 #And store in a list of tuples the KEGG gene IDs and corresponding gene names.
@@ -140,7 +144,18 @@ def find_compounds_AAseq(model, list_of_enzymes, dict_seq = {}):
                                         if r3.status_code==200:
                                             info = str(r3.content).split('\'')[1].split('\\n')
 
+                                            #Iterating over the lines of the api's response to select
+                                            #the ones containing aa sequence.
                                             for line in info:
+
+                                                #First, we look for a gene ID:
+                                                if "NCBI-GeneID: " in line:
+                                                    gene_id_dict[enzyme[0]] = {"ncbigene" : line.split(": ")[1]}
+                                                elif "UniProt: " in line:
+                                                    gene_id_dict[enzyme[0]] = {"uniprot" : line.split(": ")[1]}
+                                                else:
+                                                    Errors.append(f"[~]No Uniprot or ncbi IDs found for enzyme {enzyme[0]} with KEGG id {enzyme[1]}")
+
                                                 if 'AASEQ' in line:
                                                     aa = True
                                                     
@@ -176,7 +191,7 @@ def find_compounds_AAseq(model, list_of_enzymes, dict_seq = {}):
     for error_message in Errors:
         print(f"{error_message}")
 
-    return dict_seq, aaseq
+    return dict_seq, aaseq, gene_id_dict
 
 
 def create_km_kcat_arguments(dict_param, km = True, kcat = True):
