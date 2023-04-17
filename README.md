@@ -1,6 +1,6 @@
 # Catalytic project
 
-`model_correction.py` is a script adding informations into an sbml model such as KEGG ID and genes names, and preprocessing data of the model to create lists talen as argument for km predictions
+`model_catalytic.py` is a script adding informations into an sbml model such as KEGG ID and genes names, and preprocessing data of the model to create lists talen as argument for km predictions
 
 ## Requirements
 
@@ -9,7 +9,7 @@
 ## Usage 
 
 `
-python3 code/model_correction.py -m <sbmlmodel> -i -g -d <dataset> -k -c
+python3 code/model_catalytic.py -m <sbmlmodel> -i -g -d <dataset> -k -c
 ` 
 ### Required argument
 
