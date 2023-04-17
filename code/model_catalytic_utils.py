@@ -204,10 +204,10 @@ def create_km_kcat_arguments(dict_param, km = True, kcat = True):
     return km_sub, km_enz, kcat_prod, kcat_sub, kcat_enz
 
 
-def build_dict_compounds(list_compunds, dict_compounds = {}):
+def build_dict_compounds(list_compounds, dict_compounds = {}):
     """
     """
-    for compound in list_compunds:
+    for compound in list_compounds:
         url = "http://rest.kegg.jp/get/"
         r = requests.get(url=url+compound)
         car = str(r.content)[1]
