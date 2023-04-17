@@ -87,7 +87,9 @@ def find_compounds_AAseq(model, list_of_enzymes, dict_seq = {}):
 
                 # The line with all compounds:
                 if 'EQUATION' in line:
-                    compounds = [c for c in line.split() if 'C' in c]
+                    eq = line.split("=")
+                    sub = [c for c in eq[0].split() if 'C' in c]
+                    prod = [c for c in eq[1].split() if 'C' in c]
 
                 # Line(s) with KEGG Orthology ID to test
                 elif 'ORTHOLOGY' in line or ortho:
@@ -155,7 +157,7 @@ def find_compounds_AAseq(model, list_of_enzymes, dict_seq = {}):
                                     
 
                 if seq != "":
-                    dict_seq[enzyme[1]] = (compounds, seq)
+                    dict_seq[enzyme[1]] = {"substrates": sub, "products": prod, "enzyme":seq}
                     break
                 elif ko:
                     break
@@ -177,15 +179,29 @@ def find_compounds_AAseq(model, list_of_enzymes, dict_seq = {}):
     return dict_seq, aaseq
 
 
-def create_km_arguments(dict_km_param, list_substrat = [], list_enzyme = []):
+def create_km_kcat_arguments(dict_param, km = True, kcat = True):
     """
     """
-    for enzyme in dict_km_param:
-        for compound in dict_km_param[enzyme][0]:
-            list_substrat.append(compound)
-            list_enzyme.append(dict_km_param[enzyme][1])
+    km_enz = []
+    km_sub = []
+    kcat_enz = []
+    kcat_sub = []
+    kcat_prod = []
 
-    return list_substrat, list_enzyme
+    if km:
+        for enzyme in dict_param:
+            compounds = dict_param[enzyme]['substrates'] + dict_param[enzyme]['products']
+            for c in compounds:
+                km_sub.append(c)
+                km_enz.append(dict_param[enzyme]['enzyme'])
+
+    if kcat: 
+        for enzyme in dict_param:
+            kcat_sub.append(";".join(dict_param[enzyme]['substrates']))
+            kcat_prod.append(";".join(dict_param[enzyme]['products']))
+            kcat_enz.append(dict_param[enzyme]['enzyme'])
+
+    return km_sub, km_enz, kcat_prod, kcat_sub, kcat_enz
 
 
 def build_dict_compounds(list_compunds, dict_compounds = {}):

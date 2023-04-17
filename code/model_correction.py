@@ -1,7 +1,7 @@
 """
 Preprocessing data for km prediction
 Usage:
-    model_correction.py -m <sbmlmodel> -k -g -d <dataset>
+    model_correction.py -m <sbmlmodel> -i -g -d <dataset> -k -c
 
 Positional arguments:
     sbmlmodel            Metabolic model in sbml format.
@@ -28,13 +28,21 @@ parser.add_argument('-m', '--model', dest='sbmlmodel', action='store',\
     help=textwrap.dedent('''\
         Metabolic model in sbml format.
         \n'''))
-parser.add_argument('-k', '--keggid', dest='kegg_id', action='store_true',\
+parser.add_argument('-i', '--keggid', dest='kegg_id', action='store_true',\
     help=textwrap.dedent('''\
         Option to add kegg id in the model. Requires to add a dataset with option --data.
         \n'''))
 parser.add_argument('-g', '--genename', dest='gene_name', action='store_true',\
     help=textwrap.dedent('''\
         Option to add gene's name in the model. Requires to add a dataset with option --data.
+        \n'''))
+parser.add_argument('-k', '--km', dest='km', action='store_true',\
+    help=textwrap.dedent('''\
+        Option to find parametes to calculates km.
+        \n'''))
+parser.add_argument('-c', '--kcat', dest='kcat', action='store_true',\
+    help=textwrap.dedent('''\
+        Option to find parametes to calculates kcat.
         \n'''))
 parser.add_argument('-d', '--data', dest='dataset', action='store', default='',\
     help=textwrap.dedent('''\
@@ -49,7 +57,10 @@ parser.add_argument('-d', '--data', dest='dataset', action='store', default='',\
 args = parser.parse_args()
 
 if (args.kegg_id or args.gene_name) and args.dataset == '':
-    parser.error("--keggid and --genename require to add dataset with --data")
+    parser.error("--keggid and --genename require to add dataset with --data.")
+
+if not args.km and not args.kcat:
+    parser.error("At least one of the options --km or -kcat is required.")
 
 ############################# Variables Declaration ##############################
 
@@ -61,6 +72,8 @@ if args.kegg_id or args.gene_name:
 model_file = args.sbmlmodel
 add_keggid = args.kegg_id
 add_genes = args.gene_name
+km = args.km
+kcat = args.kcat
 
 model, errors = cobra.io.validate_sbml_model(model_file)
 
@@ -86,47 +99,70 @@ if add_keggid or add_genes:
 
 enzyme_list = [(enzyme.id, enzyme.notes['kegg_id']) for enzyme in model.reactions if 'kegg_id' in enzyme.notes]
 
-print("Looking for km predection parameters in database.")
+if kcat and km:
+    print("Looking for km and kcat predection parameters in database.")
+elif km:
+    print("Looking for km predection parameters in database.")
+elif kcat:
+    print("Looking for kcat predection parameters in database.")
+
 dict_km_parameters = mcu.find_compounds_AAseq(model, enzyme_list)
 dict_aaseq = dict_km_parameters[1]
 dict_km_parameters = dict_km_parameters[0]
 
-km_arguments = mcu.create_km_arguments(dict_km_parameters)
+arguments = mcu.create_km_kcat_arguments(dict_km_parameters, km, kcat)
 
-substrates = km_arguments[0]
-enzymes = km_arguments[1]
+km_sub = arguments[0]
+km_enz = arguments[1]
+kcat_prod = arguments[2]
+kcat_sub = arguments[3]
+kcat_enz = arguments[4]
+
 
 ##################################################################################
 
-unique_compounds = np.unique(substrates).tolist()
+
+unique_compounds = np.unique([c for enzyme in dict_km_parameters for c in dict_km_parameters[enzyme]['substrates'] + dict_km_parameters[enzyme]['products']]).tolist()
 
 dict_compounds = mcu.build_dict_compounds(unique_compounds)
 
 ##################################################################################
 
-print(len(enzymes))
-print(len(substrates))
-print(len(dict_aaseq.keys()))
-print(len(dict_compounds.keys()))
+# if km:
+#     with open("data/km_enzyme.p", "wb") as kme:
+#         pickle.dump(km_enz, kme)
 
-# with open("data/enzyme.p", "wb") as e:
-#     pickle.dump(enzymes, e)
+#     with open("data/km_substrat.p", "wb") as kms:
+#         pickle.dump(km_sub, kms)
 
-# with open("data/substrat.p", "wb") as s:
-#     pickle.dump(substrates, s)
+# if kcat:
+#     with open("data/kcat_enzyme.p", "wb") as kcate:
+#         pickle.dump(kcat_enz, kcate)
 
-# with open("data/compound.p", "wb") as c:
-#     pickle.dump(dict_compounds, c)
+#     with open("data/kcat_substrat.p", "wb") as kcats:
+#         pickle.dump(kcat_sub, kcats)
 
-# with open("data/aaseq.p", "wb") as aa:
-#     pickle.dump(dict_aaseq, aa)
+#     with open("data/kcat_product.p", "wb") as kcatp:
+#         pickle.dump(kcat_prod, kcatp)
 
 # Windows :
-with open("data\enzyme.p", "wb") as e:
-    pickle.dump(enzymes, e)
+if km:
+    with open("data\km_enzyme.p", "wb") as kme:
+        pickle.dump(km_enz, kme)
 
-with open("data\substrat.p", "wb") as s:
-    pickle.dump(substrates, s)
+    with open("data\km_substrat.p", "wb") as kms:
+        pickle.dump(km_sub, kms)
+
+if kcat:
+    with open("data\kcat_enzyme.p", "wb") as kcate:
+        pickle.dump(kcat_enz, kcate)
+
+    with open("data\kcat_substrat.p", "wb") as kcats:
+        pickle.dump(kcat_sub, kcats)
+
+    with open("data\kcat_product.p", "wb") as kcatp:
+        pickle.dump(kcat_prod, kcatp)
+
 
 with open("data\compound.p", "wb") as c:
     pickle.dump(dict_compounds, c)
