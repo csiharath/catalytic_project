@@ -9,7 +9,7 @@
 ## Usage 
 
 `
-python3 model_correction.py -m <sbmlmodel> -k -g -d <dataset>
+python3 code/model_correction.py -m <sbmlmodel> -k -g -d <dataset>
 ` 
 ### Required argument
 
