@@ -150,11 +150,10 @@ def find_compounds_AAseq(model, list_of_enzymes):
 
                                                 #First, we look for a gene ID:
                                                 if "NCBI-GeneID: " in line:
-                                                    gene_id_dict[enzyme[0]] = {"ncbigene" : line.split(": ")[1]}
+                                                    gene_id_dict[enzyme[0]]["ncbigene"] = line.split(": ")[1]
                                                 elif "UniProt: " in line:
-                                                    gene_id_dict[enzyme[0]] = {"uniprot" : line.split(": ")[1]}
-                                                else:
-                                                    Errors.append(f"[~]No Uniprot or ncbi IDs found for enzyme {enzyme[0]} with KEGG id {enzyme[1]}")
+                                                    gene_id_dict[enzyme[0]]["uniprot"] =  line.split(": ")[1]
+                                                #Add a check, outside of the loop, for when no gene is found.
 
                                                 if 'AASEQ' in line:
                                                     aa = True

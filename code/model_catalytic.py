@@ -100,16 +100,17 @@ if add_keggid or add_genes:
 enzyme_list = [(enzyme.id, enzyme.notes['kegg_id']) for enzyme in model.reactions if 'kegg_id' in enzyme.notes]
 
 if kcat and km:
-    print("Looking for km and kcat predection parameters in database.")
+    print("Looking for km and kcat prediction parameters in database.")
 elif km:
-    print("Looking for km predection parameters in database.")
+    print("Looking for km prediction parameters in database.")
 elif kcat:
-    print("Looking for kcat predection parameters in database.")
+    print("Looking for kcat prediction parameters in database.")
 
-dict_km_parameters = mcu.find_compounds_AAseq(model, enzyme_list)
-dict_aaseq = dict_km_parameters[1]
-dict_km_parameters = dict_km_parameters[0]
-dict_genes_id = dict_km_parameters[2]
+response_tuple = mcu.find_compounds_AAseq(model, enzyme_list)
+
+dict_aaseq = response_tuple[1]
+dict_km_parameters = response_tuple[0]
+dict_genes_id = response_tuple[2]
 arguments = mcu.create_km_kcat_arguments(dict_km_parameters, km, kcat)
 
 km_sub = arguments[0]
