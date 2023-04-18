@@ -229,3 +229,11 @@ def build_dict_compounds(list_compounds, dict_compounds = {}):
         dict_compounds[compound] = info[1].split()[1].split(';')[0]
 
     return dict_compounds
+
+def add_gene_alt_ids(gene_ids_dict, model):
+    for reaction_id, annotations in gene_ids_dict.items():
+        reaction_obj = model.reactions.get_by_id(reaction_id)
+        reaction_gene_obj = [g for g in reaction_obj.genes]
+
+        if len(reaction_gene_obj) > 0:
+            reaction_gene_obj[0].annotation = annotations

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" xmlns:fbc="http://www.sbml.org/sbml/level3/version1/fbc/version2" sboTerm="SBO:0000624" level="3" version="1" fbc:required="false">
+<sbml xmlns="http://www.sbml.org/sbml/level3/version1/core" xmlns:fbc="http://www.sbml.org/sbml/level3/version1/fbc/version2" metaid="meta_" sboTerm="SBO:0000624" level="3" version="1" fbc:required="false">
   <model metaid="meta_ccm_ross_xml" id="ccm_ross_xml" name="ccm_ross.xml" fbc:strict="true">
     <listOfUnitDefinitions>
       <unitDefinition id="mmol_per_gDW_per_hr">
@@ -1128,62 +1128,439 @@
       <fbc:geneProduct fbc:id="G_ptsI" fbc:name="G_ptsI" fbc:label="G_ptsI"/>
       <fbc:geneProduct fbc:id="G_ptsH" fbc:name="G_ptsH" fbc:label="G_ptsH"/>
       <fbc:geneProduct fbc:id="G_pgi" fbc:name="G_pgi" fbc:label="G_pgi"/>
-      <fbc:geneProduct fbc:id="G_pfkA" fbc:name="G_pfkA" fbc:label="G_pfkA"/>
-      <fbc:geneProduct fbc:id="G_fbp" fbc:name="G_fbp" fbc:label="G_fbp"/>
-      <fbc:geneProduct fbc:id="G_fbaA" fbc:name="G_fbaA" fbc:label="G_fbaA"/>
-      <fbc:geneProduct fbc:id="G_tpiA" fbc:name="G_tpiA" fbc:label="G_tpiA"/>
+      <fbc:geneProduct metaid="meta_G_pfkA" fbc:id="G_pfkA" fbc:name="G_pfkA" fbc:label="G_pfkA">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_pfkA">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/948412"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P0A796"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
+      <fbc:geneProduct metaid="meta_G_fbp" fbc:id="G_fbp" fbc:name="G_fbp" fbc:label="G_fbp">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_fbp">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/948753"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P0A993"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
+      <fbc:geneProduct metaid="meta_G_fbaA" fbc:id="G_fbaA" fbc:name="G_fbaA" fbc:label="G_fbaA">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_fbaA">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/947415"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P0AB71"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
+      <fbc:geneProduct metaid="meta_G_tpiA" fbc:id="G_tpiA" fbc:name="G_tpiA" fbc:label="G_tpiA">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_tpiA">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/948409"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P0A858"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
       <fbc:geneProduct fbc:id="G_gapB" fbc:name="G_gapB" fbc:label="G_gapB"/>
-      <fbc:geneProduct fbc:id="G_gapA" fbc:name="G_gapA" fbc:label="G_gapA"/>
-      <fbc:geneProduct fbc:id="G_pgk" fbc:name="G_pgk" fbc:label="G_pgk"/>
+      <fbc:geneProduct metaid="meta_G_gapA" fbc:id="G_gapA" fbc:name="G_gapA" fbc:label="G_gapA">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_gapA">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/947679"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P0A9B2"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
+      <fbc:geneProduct metaid="meta_G_pgk" fbc:id="G_pgk" fbc:name="G_pgk" fbc:label="G_pgk">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_pgk">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/947414"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P0A799"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
       <fbc:geneProduct fbc:id="G_gpml" fbc:name="G_gpml" fbc:label="G_gpml"/>
       <fbc:geneProduct fbc:id="G_pgml" fbc:name="G_pgml" fbc:label="G_pgml"/>
-      <fbc:geneProduct fbc:id="G_eno" fbc:name="G_eno" fbc:label="G_eno"/>
-      <fbc:geneProduct fbc:id="G_pykF" fbc:name="G_pykF" fbc:label="G_pykF"/>
+      <fbc:geneProduct metaid="meta_G_eno" fbc:id="G_eno" fbc:name="G_eno" fbc:label="G_eno">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_eno">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/945032"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P0A6P9"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
+      <fbc:geneProduct metaid="meta_G_pykF" fbc:id="G_pykF" fbc:name="G_pykF" fbc:label="G_pykF">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_pykF">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/946179"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P0AD61"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
       <fbc:geneProduct fbc:id="G_zwk" fbc:name="G_zwk" fbc:label="G_zwk"/>
-      <fbc:geneProduct fbc:id="G_pgl" fbc:name="G_pgl" fbc:label="G_pgl"/>
-      <fbc:geneProduct fbc:id="G_gnd" fbc:name="G_gnd" fbc:label="G_gnd"/>
-      <fbc:geneProduct fbc:id="G_rpe" fbc:name="G_rpe" fbc:label="G_rpe"/>
-      <fbc:geneProduct fbc:id="G_rpiA" fbc:name="G_rpiA" fbc:label="G_rpiA"/>
+      <fbc:geneProduct metaid="meta_G_pgl" fbc:id="G_pgl" fbc:name="G_pgl" fbc:label="G_pgl">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_pgl">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/946398"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P52697"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
+      <fbc:geneProduct metaid="meta_G_gnd" fbc:id="G_gnd" fbc:name="G_gnd" fbc:label="G_gnd">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_gnd">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/946554"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P00350"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
+      <fbc:geneProduct metaid="meta_G_rpe" fbc:id="G_rpe" fbc:name="G_rpe" fbc:label="G_rpe">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_rpe">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/947896"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P0AG07"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
+      <fbc:geneProduct metaid="meta_G_rpiA" fbc:id="G_rpiA" fbc:name="G_rpiA" fbc:label="G_rpiA">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_rpiA">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/947407"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P0A7Z0"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
       <fbc:geneProduct fbc:id="G_tktA" fbc:name="G_tktA" fbc:label="G_tktA"/>
       <fbc:geneProduct fbc:id="G_talA" fbc:name="G_talA" fbc:label="G_talA"/>
       <fbc:geneProduct fbc:id="G_tktB" fbc:name="G_tktB" fbc:label="G_tktB"/>
-      <fbc:geneProduct fbc:id="G_edd" fbc:name="G_edd" fbc:label="G_edd"/>
-      <fbc:geneProduct fbc:id="G_eda" fbc:name="G_eda" fbc:label="G_eda"/>
+      <fbc:geneProduct metaid="meta_G_edd" fbc:id="G_edd" fbc:name="G_edd" fbc:label="G_edd">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_edd">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/946362"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P0ADF6"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
+      <fbc:geneProduct metaid="meta_G_eda" fbc:id="G_eda" fbc:name="G_eda" fbc:label="G_eda">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_eda">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/946367"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P0A955"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
       <fbc:geneProduct fbc:id="G_ybiW" fbc:name="G_ybiW" fbc:label="G_ybiW"/>
       <fbc:geneProduct fbc:id="G_pflD" fbc:name="G_pflD" fbc:label="G_pflD"/>
-      <fbc:geneProduct fbc:id="G_pflB" fbc:name="G_pflB" fbc:label="G_pflB"/>
+      <fbc:geneProduct metaid="meta_G_pflB" fbc:id="G_pflB" fbc:name="G_pflB" fbc:label="G_pflB">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_pflB">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/945514"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P09373"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
       <fbc:geneProduct fbc:id="G_aceF" fbc:name="G_aceF" fbc:label="G_aceF"/>
       <fbc:geneProduct fbc:id="G_aceE" fbc:name="G_aceE" fbc:label="G_aceE"/>
-      <fbc:geneProduct fbc:id="G_lpdA" fbc:name="G_lpdA" fbc:label="G_lpdA"/>
-      <fbc:geneProduct fbc:id="G_gltA" fbc:name="G_gltA" fbc:label="G_gltA"/>
+      <fbc:geneProduct metaid="meta_G_lpdA" fbc:id="G_lpdA" fbc:name="G_lpdA" fbc:label="G_lpdA">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_lpdA">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/944834"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P0AFG8"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
+      <fbc:geneProduct metaid="meta_G_gltA" fbc:id="G_gltA" fbc:name="G_gltA" fbc:label="G_gltA">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_gltA">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/945323"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P0ABH7"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
       <fbc:geneProduct fbc:id="G_acnB" fbc:name="G_acnB" fbc:label="G_acnB"/>
-      <fbc:geneProduct fbc:id="G_acnA" fbc:name="G_acnA" fbc:label="G_acnA"/>
+      <fbc:geneProduct metaid="meta_G_acnA" fbc:id="G_acnA" fbc:name="G_acnA" fbc:label="G_acnA">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_acnA">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/946724"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P25516"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
       <fbc:geneProduct fbc:id="G_icd" fbc:name="G_icd" fbc:label="G_icd"/>
-      <fbc:geneProduct fbc:id="G_sucA" fbc:name="G_sucA" fbc:label="G_sucA"/>
+      <fbc:geneProduct metaid="meta_G_sucA" fbc:id="G_sucA" fbc:name="G_sucA" fbc:label="G_sucA">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_sucA">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/945303"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P0AFG3"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
       <fbc:geneProduct fbc:id="G_sucB" fbc:name="G_sucB" fbc:label="G_sucB"/>
       <fbc:geneProduct fbc:id="G_sucC" fbc:name="G_sucC" fbc:label="G_sucC"/>
-      <fbc:geneProduct fbc:id="G_sucD" fbc:name="G_sucD" fbc:label="G_sucD"/>
+      <fbc:geneProduct metaid="meta_G_sucD" fbc:id="G_sucD" fbc:name="G_sucD" fbc:label="G_sucD">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_sucD">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/945314"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P0AGE9"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
       <fbc:geneProduct fbc:id="G_sdhD" fbc:name="G_sdhD" fbc:label="G_sdhD"/>
       <fbc:geneProduct fbc:id="G_sdhC" fbc:name="G_sdhC" fbc:label="G_sdhC"/>
-      <fbc:geneProduct fbc:id="G_sdhB" fbc:name="G_sdhB" fbc:label="G_sdhB"/>
+      <fbc:geneProduct metaid="meta_G_sdhB" fbc:id="G_sdhB" fbc:name="G_sdhB" fbc:label="G_sdhB">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_sdhB">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/945402"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P0AC41"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
       <fbc:geneProduct fbc:id="G_sdhA" fbc:name="G_sdhA" fbc:label="G_sdhA"/>
-      <fbc:geneProduct fbc:id="G_frdA" fbc:name="G_frdA" fbc:label="G_frdA"/>
+      <fbc:geneProduct metaid="meta_G_frdA" fbc:id="G_frdA" fbc:name="G_frdA" fbc:label="G_frdA">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_frdA">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/948667"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P00363"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
       <fbc:geneProduct fbc:id="G_frdB" fbc:name="G_frdB" fbc:label="G_frdB"/>
       <fbc:geneProduct fbc:id="G_fumB" fbc:name="G_fumB" fbc:label="G_fumB"/>
       <fbc:geneProduct fbc:id="G_fumA" fbc:name="G_fumA" fbc:label="G_fumA"/>
-      <fbc:geneProduct fbc:id="G_fumE" fbc:name="G_fumE" fbc:label="G_fumE"/>
+      <fbc:geneProduct metaid="meta_G_fumE" fbc:id="G_fumE" fbc:name="G_fumE" fbc:label="G_fumE">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_fumE">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/946180"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P0ACX5"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
       <fbc:geneProduct fbc:id="G_fumC" fbc:name="G_fumC" fbc:label="G_fumC"/>
       <fbc:geneProduct fbc:id="G_fumD" fbc:name="G_fumD" fbc:label="G_fumD"/>
-      <fbc:geneProduct fbc:id="G_mdh" fbc:name="G_mdh" fbc:label="G_mdh"/>
-      <fbc:geneProduct fbc:id="G_ppc" fbc:name="G_ppc" fbc:label="G_ppc"/>
-      <fbc:geneProduct fbc:id="G_maeA" fbc:name="G_maeA" fbc:label="G_maeA"/>
+      <fbc:geneProduct metaid="meta_G_mdh" fbc:id="G_mdh" fbc:name="G_mdh" fbc:label="G_mdh">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_mdh">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/947854"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P61889"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
+      <fbc:geneProduct metaid="meta_G_ppc" fbc:id="G_ppc" fbc:name="G_ppc" fbc:label="G_ppc">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_ppc">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/948457"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P00864"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
+      <fbc:geneProduct metaid="meta_G_maeA" fbc:id="G_maeA" fbc:name="G_maeA" fbc:label="G_maeA">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_maeA">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/946031"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P26616"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
       <fbc:geneProduct fbc:id="G_pckA" fbc:name="G_pckA" fbc:label="G_pckA"/>
       <fbc:geneProduct fbc:id="G_lldD" fbc:name="G_lldD" fbc:label="G_lldD"/>
       <fbc:geneProduct fbc:id="G_acdh" fbc:name="G_acdh" fbc:label="G_acdh"/>
-      <fbc:geneProduct fbc:id="G_adhE" fbc:name="G_adhE" fbc:label="G_adhE"/>
-      <fbc:geneProduct fbc:id="G_pta" fbc:name="G_pta" fbc:label="G_pta"/>
+      <fbc:geneProduct metaid="meta_G_adhE" fbc:id="G_adhE" fbc:name="G_adhE" fbc:label="G_adhE">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_adhE">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/945837"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P0A9Q7"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
+      <fbc:geneProduct metaid="meta_G_pta" fbc:id="G_pta" fbc:name="G_pta" fbc:label="G_pta">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_pta">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/946778"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P0A9M8"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
       <fbc:geneProduct fbc:id="G_ack" fbc:name="G_ack" fbc:label="G_ack"/>
-      <fbc:geneProduct fbc:id="G_cyoB" fbc:name="G_cyoB" fbc:label="G_cyoB"/>
+      <fbc:geneProduct metaid="meta_G_cyoB" fbc:id="G_cyoB" fbc:name="G_cyoB" fbc:label="G_cyoB">
+        <annotation>
+          <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:vCard="http://www.w3.org/2001/vcard-rdf/3.0#" xmlns:vCard4="http://www.w3.org/2006/vcard/ns#" xmlns:bqbiol="http://biomodels.net/biology-qualifiers/" xmlns:bqmodel="http://biomodels.net/model-qualifiers/">
+            <rdf:Description rdf:about="#meta_G_cyoB">
+              <bqbiol:is>
+                <rdf:Bag>
+                  <rdf:li rdf:resource="https://identifiers.org/ncbigene/945080"/>
+                  <rdf:li rdf:resource="https://identifiers.org/uniprot/P0ABJ1"/>
+                </rdf:Bag>
+              </bqbiol:is>
+            </rdf:Description>
+          </rdf:RDF>
+        </annotation>
+      </fbc:geneProduct>
       <fbc:geneProduct fbc:id="G_cyoD" fbc:name="G_cyoD" fbc:label="G_cyoD"/>
       <fbc:geneProduct fbc:id="G_cyoC" fbc:name="G_cyoC" fbc:label="G_cyoC"/>
       <fbc:geneProduct fbc:id="G_cyoA" fbc:name="G_cyoA" fbc:label="G_cyoA"/>

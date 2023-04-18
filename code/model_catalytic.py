@@ -77,23 +77,6 @@ kcat = args.kcat
 
 model, errors = cobra.io.validate_sbml_model(model_file)
 
-####################### Adding informations into the model #######################
-
-if add_keggid or add_genes:
-    df_react = pd.read_csv(dataset, sep=";")
-    df_react = df_react.set_index('Reaction name')
-
-if add_keggid:
-    print(f"Adding kegg id to {model_file} model.")
-    mcu.add_kegg_id_to_model(model, df_react)
-
-if add_genes:
-    print(f"Adding genes names to {model_file} model.")
-    mcu.add_gene_reaction_rule(model, df_react)
-
-if add_keggid or add_genes:
-    cobra.io.write_sbml_model(model, filename=model_file.split(".xml")[0]+"_updated.xml")
-
 
 ######################## Defining km prediction parameters #######################
 
@@ -127,8 +110,8 @@ unique_compounds = np.unique([c for enzyme in dict_km_parameters for c in dict_k
 
 dict_compounds = mcu.build_dict_compounds(unique_compounds)
 
-##################################################################################
-
+############### Writing data for KM and KCAT prediction to pickles ###############
+print("Writing output to pickle files...")
 if km:
     with open("data/km_enzyme.p", "wb") as kme:
         pickle.dump(km_enz, kme)
@@ -151,6 +134,26 @@ with open("data/compound.p", "wb") as c:
 
 with open("data/seq.p", "wb") as aa:
     pickle.dump(dict_aaseq, aa)
+
+####################### Adding informations into the model #######################
+
+if add_keggid or add_genes:
+    df_react = pd.read_csv(dataset, sep=";")
+    df_react = df_react.set_index('Reaction name')
+
+if add_keggid:
+    print(f"Adding kegg id to {model_file} model.")
+    mcu.add_kegg_id_to_model(model, df_react)
+
+if add_genes:
+    print(f"Adding genes names to {model_file} model.")
+    mcu.add_gene_reaction_rule(model, df_react)
+    mcu.add_gene_alt_ids(dict_genes_id, model)
+
+if add_keggid or add_genes:
+    cobra.io.write_sbml_model(model, filename=model_file.split(".xml")[0]+"_updated.xml")
+
+
 # Windows :
 # if km:
 #     with open("data\km_enzyme.p", "wb") as kme:
@@ -176,4 +179,6 @@ with open("data/seq.p", "wb") as aa:
 # with open("data\seq.p", "wb") as aa:
 #     pickle.dump(dict_aaseq, aa)
 
+# with open("data\alt_gid.p","wb") as gid:
+#     pickle.dump(dict_genes_id, gid)
 print("--- %s seconds ---" % (time.time() - start_time))
