@@ -440,6 +440,7 @@ def print_reactions(reaction, flux = 0.0, v=True):
     '''
     Affiche les reactions d'un modele de façon plus lisible
     '''
+    list_met = []
     liste_reactif = [i for i in reaction.reactants]
     liste_produit = [i for i in reaction.products]
     string = ""
@@ -461,10 +462,12 @@ def print_reactions(reaction, flux = 0.0, v=True):
 
     for i in liste_reactif:
         if i != liste_reactif[-1]:
+            list_met.append(i.name)
             string += str(float(abs(reaction.metabolites[i])))
             string += " "
             string += str(i.name)
             string += " + "
+            list_met.append("+")
 
             string2 += str(float(abs(reaction.metabolites[i])))
             string2 += " "
@@ -472,6 +475,7 @@ def print_reactions(reaction, flux = 0.0, v=True):
             string2 += " + "
 
         else:
+            list_met.append(i.name)
             string += str(float(abs(reaction.metabolites[i])))
             string += " "
             string += str(i.name)
@@ -482,6 +486,7 @@ def print_reactions(reaction, flux = 0.0, v=True):
             string2 += str(i.id)
             string2 += " "
 
+    list_met.append(fleche)
     string += fleche
     string += " "
 
@@ -491,10 +496,12 @@ def print_reactions(reaction, flux = 0.0, v=True):
 
     for i in liste_produit:
         if i != liste_produit[-1]:
+            list_met.append(i.name)
             string += str(float(abs(reaction.metabolites[i])))
             string += " "
             string += str(i.name)
             string += " + "
+            list_met.append("+")
 
             string2 += str(float(abs(reaction.metabolites[i])))
             string2 += " "
@@ -502,6 +509,7 @@ def print_reactions(reaction, flux = 0.0, v=True):
             string2 += " + "
 
         else:
+            list_met.append(i.name)
             string += str(float(abs(reaction.metabolites[i])))
             string += " "
             string += str(i.name)
@@ -514,4 +522,4 @@ def print_reactions(reaction, flux = 0.0, v=True):
         print("")
         print(string2)
     else :
-        return(string, string2)
+        return(string, string2, list_met)

@@ -226,7 +226,7 @@ def build_dict_compounds(list_compounds, dict_compounds = {}):
         r = requests.get(url=url+compound)
         car = str(r.content)[1]
         info = str(r.content).split(car)[1].split('\\n')
-        dict_compounds[compound] = info[1].split()[1].split(';')[0]
+        dict_compounds[compound] = info[1].split(None, 1)[1].split(';')[0]
 
     return dict_compounds
 
