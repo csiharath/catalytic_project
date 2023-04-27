@@ -10,13 +10,15 @@ def add_kegg_id_to_model(model, dataframe_react):
     """
     """
     for reaction in model.reactions:
-        try :
-            if dataframe_react.loc[reaction.id]['KEGG reaction ID'] != "NaN":
-                reaction.notes = {"kegg_id": dataframe_react.loc[reaction.id]['KEGG reaction ID']}
-            else:
-                print(dataframe_react.loc[reaction.id]['KEGG reaction ID'])
-        except :
-            print(f"Warning: No KEGG ID found for reaction {reaction.id}")
+        if 'kegg_id' not in reaction.notes:
+            try :
+                reaction.notes = {"kegg_id": dataframe_react.loc[dataframe_react['Reaction name'] == reaction.id].iloc[0]['KEGG reaction ID']}
+                # if dataframe_react.loc[reaction.id]['KEGG reaction ID'] != "NaN":
+                #     reaction.notes = {"kegg_id": dataframe_react.loc[reaction.id]['KEGG reaction ID']}
+                # else:
+                #     print(dataframe_react.loc[reaction.id]['KEGG reaction ID'])
+            except :
+                print(f"Warning: No KEGG ID found for reaction {reaction.id}")
 
 
 def add_gene_reaction_rule(model, data:pd.DataFrame):
@@ -25,37 +27,18 @@ def add_gene_reaction_rule(model, data:pd.DataFrame):
     reaction2genes = defaultdict(list)
 
     for i in range(len(data.index)): 
-        reaction_name = data.index[i]
+        reaction_name = data.loc[i]['Reaction name']
 
         if not isinstance(reaction_name,str) :
             pass
-
         else:
             reaction_key = reaction_name
-        for split_gene_name in data.loc[reaction_name]["Gene name"].split(","):
-            if isinstance(split_gene_name, str):
+            reaction2genes[reaction_key].append(data.loc[i]["Gene name"])
 
-                if "?" in split_gene_name:
-                    continue
-
-                elif "/" in split_gene_name:
-                    genes = split_gene_name.split("/")
-                    # print(genes, type(genes))
-                    
-                    for gene_name in genes :
-                        reaction2genes[reaction_key].append(gene_name)
-
-                elif "(" in split_gene_name :
-                    gene = split_gene_name.split("(")[0].strip(" ")
-                    reaction2genes[reaction_key].append(gene)
-                else:
-                    reaction2genes[reaction_key].append(split_gene_name)
-            else : continue
-    
     for reac_id, genes in reaction2genes.items():
         try:
             reac_obj = model.reactions.get_by_id(reac_id)
-            gene_reaction_rule = " or ".join(genes)
+            gene_reaction_rule = " and ".join(genes)
             reac_obj.gene_reaction_rule = gene_reaction_rule
 
         except KeyError:
@@ -73,13 +56,17 @@ def find_compounds_AAseq(model, list_of_enzymes):
     dict_seq = {}
     aaseq = {}
     gene_id_dict = defaultdict(dict)
+    seq = ""
 
     for enzyme in tqdm(list_of_enzymes):
         aa = False
         ortho = False
         ko = False
-        seq = ""
         url = "http://rest.kegg.jp/get/"
+
+        reac_obj = model.reactions.get_by_id(enzyme[0])
+        genes = [str(g.id).lower() for g in reac_obj.genes]
+        genes_found = []
 
         # First request to get list of compounds and the KEGG Orthology ID from the KEGG ID
         r1 = requests.get(url=url+enzyme[1])
@@ -98,7 +85,7 @@ def find_compounds_AAseq(model, list_of_enzymes):
 
                 # Line(s) with KEGG Orthology ID to test
                 elif 'ORTHOLOGY' in line or ortho:
-
+                    seq = ""
                     if ortho:
                         id = line.split()[0]
                         if id == 'DBLINKS' or id =='///':
@@ -126,20 +113,17 @@ def find_compounds_AAseq(model, list_of_enzymes):
 
                                 line_list = line.split(" ")
                                 start_index = line_list.index("ECO:")
-                                idZ_list = line_list[start_index+1:]
-                                idZ_gID = [(idZ, gID) for idZ, gID in zip([elem.split('(')[0] for elem in idZ_list],\
-                                                                           [elem.split('(')[1].strip(')') for elem in idZ_list])]
+                                gID_list = line_list[start_index+1:]
+                                gID_gname = [(gID, gname) for gID, gname in zip([elem.split('(')[0] for elem in gID_list],\
+                                                                           [elem.split('(')[1].strip(')') for elem in gID_list])]
                                 
                                 #Gene ID comparison between the KEGG response and the model's gene names.
-                                for idZ, gID in idZ_gID:
-                                    reac_obj = model.reactions.get_by_id(enzyme[0])
-
-                                    if gID.lower() in [str(g.id).lower() for g in reac_obj.genes]:
-                                        Success.append(f"\n[>]Found {gID} gene id in reaction {reac_obj.name}. Adding its aa sequence to the dictionary.\n\n===\n")
+                                for gID, gname in gID_gname:
+                                    if gname.lower() in genes or (len(genes) == 1 and genes_found == []):
+                                        Success.append(f"\n[>]Found {gname} gene id in reaction {reac_obj.name}. Adding its aa sequence to the dictionary.\n\n===\n")
                                     
                                         # Third request to get AA sequence from CDS ID
-                                        r3 = requests.get(url=url+"eco:"+idZ)
-                                    
+                                        r3 = requests.get(url=url+"eco:"+gID)
 
                                         if r3.status_code==200:
                                             info = str(r3.content).split('\'')[1].split('\\n')
@@ -159,21 +143,32 @@ def find_compounds_AAseq(model, list_of_enzymes):
                                                     aa = True
                                                     
                                                 elif 'NTSEQ' in line:
-                                                    aaseq[seq] = enzyme[0]
+                                                    aaseq[seq] = (enzyme[0], gname)
+                                                    try:
+                                                        genes.remove(gname.lower())
+                                                        gene = gname.lower()
+                                                    except:
+                                                        gene = genes[0]
+                                                        Success.append(f"Gene {gname} was associated to {genes[0]}")
+                                                    aa = False
                                                     break
 
                                                 elif aa:
                                                     seq += line.split()[0]
                                     else:
+                                        genes_found.append(gID)
                                         continue
                                 break
-
-                                    
+                
+                
 
                 if seq != "":
-                    dict_seq[enzyme[1]] = {"substrates": sub, "products": prod, "enzyme":seq}
-                    break
-                elif ko:
+                    if enzyme[1] not in dict_seq:
+                        dict_seq[enzyme[1]] = [{"substrates": sub, "products": prod, "enzyme":seq, "gene": gene}]
+                    else:
+                        dict_seq[enzyme[1]].append({"substrates": sub, "products": prod, "enzyme":seq, "gene": gene})
+                    # break
+                elif ko or genes == []:
                     break
                 elif ortho:
                     aa = False
@@ -204,16 +199,20 @@ def create_km_kcat_arguments(dict_param, km = True, kcat = True):
 
     if km:
         for enzyme in dict_param:
-            compounds = dict_param[enzyme]['substrates'] + dict_param[enzyme]['products']
-            for c in compounds:
-                km_sub.append(c)
-                km_enz.append(dict_param[enzyme]['enzyme'])
+            for gene in dict_param[enzyme]:
+                compounds = gene['substrates'] + gene['products']
+                # compounds = dict_param[enzyme]['substrates'] + dict_param[enzyme]['products']
+                for c in compounds:
+                    km_sub.append(c)
+                    km_enz.append(gene['enzyme'])
 
     if kcat: 
         for enzyme in dict_param:
-            kcat_sub.append(";".join(dict_param[enzyme]['substrates']))
-            kcat_prod.append(";".join(dict_param[enzyme]['products']))
-            kcat_enz.append(dict_param[enzyme]['enzyme'])
+            for gene in dict_param[enzyme]:
+                kcat_sub.append(";".join(gene['substrates']))
+                kcat_prod.append(";".join(gene['products']))
+                kcat_enz.append(gene['enzyme'])
+    
 
     return km_sub, km_enz, kcat_prod, kcat_sub, kcat_enz
 

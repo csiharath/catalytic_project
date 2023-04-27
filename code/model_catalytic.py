@@ -5,7 +5,7 @@ Usage:
 
 Positional arguments:
     sbmlmodel            Metabolic model in sbml format.
-    dataset              Csv file containing colums of reaction's name in the model, the corresponding KEGG ID, and a list og associated genes
+    dataset              Csv file containing colums of reaction's name in the model, the corresponding KEGG ID, and a list of associated genes
 """
 
 import argparse
@@ -77,10 +77,25 @@ kcat = args.kcat
 
 model, errors = cobra.io.validate_sbml_model(model_file)
 
+####################### Adding informations into the model #######################
+
+if add_keggid or add_genes:
+    df_react = pd.read_csv(dataset, sep=";")
+
+if add_genes:
+    print(f"Adding genes names to {model_file} model.")
+    mcu.add_gene_reaction_rule(model, df_react)
+
+if add_keggid:
+    print(f"Adding kegg id to {model_file} model.")
+    mcu.add_kegg_id_to_model(model, df_react)
+    cobra.io.write_sbml_model(model, filename=model_file.split(".xml")[0]+"_updated.xml")
 
 ######################## Defining km prediction parameters #######################
 
 enzyme_list = [(enzyme.id, enzyme.notes['kegg_id']) for enzyme in model.reactions if 'kegg_id' in enzyme.notes]
+### Mitocore_mouse: ###
+# enzyme_list = [(enzyme.id, enzyme.notes['KEGG id']) for enzyme in model.reactions if 'KEGG id' in enzyme.notes]
 
 if kcat and km:
     print("Looking for km and kcat prediction parameters in database.")
@@ -102,11 +117,13 @@ kcat_prod = arguments[2]
 kcat_sub = arguments[3]
 kcat_enz = arguments[4]
 
+print(len(kcat_enz))
+
 
 ##################################################################################
 
-
-unique_compounds = np.unique([c for enzyme in dict_km_parameters for c in dict_km_parameters[enzyme]['substrates'] + dict_km_parameters[enzyme]['products']]).tolist()
+# unique_compounds = np.unique([c for enzyme in dict_km_parameters for c in dict_km_parameters[enzyme]['substrates'] + dict_km_parameters[enzyme]['products']]).tolist()
+unique_compounds = np.unique([c for enzyme in dict_km_parameters for c in dict_km_parameters[enzyme][0]['substrates'] + dict_km_parameters[enzyme][0]['products']]).tolist()
 
 dict_compounds = mcu.build_dict_compounds(unique_compounds)
 
@@ -137,17 +154,9 @@ with open("data/seq.p", "wb") as aa:
 
 ####################### Adding informations into the model #######################
 
-if add_keggid or add_genes:
-    df_react = pd.read_csv(dataset, sep=";")
-    df_react = df_react.set_index('Reaction name')
-
-if add_keggid:
-    print(f"Adding kegg id to {model_file} model.")
-    mcu.add_kegg_id_to_model(model, df_react)
-
 if add_genes:
-    print(f"Adding genes names to {model_file} model.")
-    mcu.add_gene_reaction_rule(model, df_react)
+    print(f"Adding genes ids to {model_file} model.")
+    # mcu.add_gene_reaction_rule(model, df_react)
     mcu.add_gene_alt_ids(dict_genes_id, model)
 
 if add_keggid or add_genes:
