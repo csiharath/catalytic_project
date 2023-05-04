@@ -94,6 +94,7 @@ if add_keggid:
 ######################## Defining km prediction parameters #######################
 
 enzyme_list = [(enzyme.id, enzyme.notes['kegg_id']) for enzyme in model.reactions if 'kegg_id' in enzyme.notes]
+print(enzyme_list)
 ### Mitocore_mouse: ###
 # enzyme_list = [(enzyme.id, enzyme.notes['KEGG id']) for enzyme in model.reactions if 'KEGG id' in enzyme.notes]
 

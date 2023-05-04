@@ -12,11 +12,14 @@ def add_kegg_id_to_model(model, dataframe_react):
     for reaction in model.reactions:
         if 'kegg_id' not in reaction.notes:
             try :
-                reaction.notes = {"kegg_id": dataframe_react.loc[dataframe_react['Reaction name'] == reaction.id].iloc[0]['KEGG reaction ID']}
-                # if dataframe_react.loc[reaction.id]['KEGG reaction ID'] != "NaN":
-                #     reaction.notes = {"kegg_id": dataframe_react.loc[reaction.id]['KEGG reaction ID']}
-                # else:
-                #     print(dataframe_react.loc[reaction.id]['KEGG reaction ID'])
+                if isinstance(dataframe_react.loc[dataframe_react['Reaction name'] == reaction.id].iloc[0]['KEGG reaction ID'], str):
+                    reaction.notes = {"kegg_id": dataframe_react.loc[dataframe_react['Reaction name'] == reaction.id].iloc[0]['KEGG reaction ID']}
+                    # if dataframe_react.loc[reaction.id]['KEGG reaction ID'] != "NaN":
+                    #     reaction.notes = {"kegg_id": dataframe_react.loc[reaction.id]['KEGG reaction ID']}
+                    # else:
+                    #     print(dataframe_react.loc[reaction.id]['KEGG reaction ID'])
+                else:
+                    print(f"Warning: No KEGG ID found for reaction {reaction.id}")
             except :
                 print(f"Warning: No KEGG ID found for reaction {reaction.id}")
 
