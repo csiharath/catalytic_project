@@ -40,14 +40,56 @@ def add_gene_reaction_rule(model, data:pd.DataFrame):
 
     for reac_id, genes in reaction2genes.items():
         try:
-            reac_obj = model.reactions.get_by_id(reac_id)
-            gene_reaction_rule = " and ".join(genes)
-            reac_obj.gene_reaction_rule = gene_reaction_rule
+            if not isinstance(genes[0],str) :
+                pass
+            else:
+                reac_obj = model.reactions.get_by_id(reac_id)
+                gene_reaction_rule = " and ".join(genes)
+                reac_obj.gene_reaction_rule = gene_reaction_rule
 
         except KeyError:
             continue
     return reaction2genes
 
+def get_sequence_from_gene(bool_aa, reaction, genes_list, gene_name, gene_id, enzyme_name, sequence, dict_gene, dict_seq, url, Success):
+    Success.append(f"\n[>]Found {gene_name} gene id in reaction {reaction.name}. Adding its aa sequence to the dictionary.\n\n===\n")
+
+    # Third request to get AA sequence from CDS ID
+    r3 = requests.get(url=url+"eco:"+gene_id)
+
+    if r3.status_code==200:
+        info = r3.content.decode('utf8').split('\n')
+
+        #Iterating over the lines of the api's response to select
+        #the ones containing aa sequence.
+        for line in info:
+
+            #First, we look for a gene ID:
+            if "NCBI-GeneID: " in line:
+                dict_gene[enzyme_name]["ncbigene"] = line.split(": ")[1]
+            elif "UniProt: " in line:
+                dict_gene[enzyme_name]["uniprot"] =  line.split(": ")[1]
+            #Add a check, outside of the loop, for when no gene is found.
+
+            if 'AASEQ' in line:                                                       
+                bool_aa = True
+                
+            elif 'NTSEQ' in line:
+                dict_seq[sequence] = (enzyme_name, gene_name)
+                genes_list.remove(gene_name.lower())
+                # gene = gene_name.lower()
+                # except:
+                #     gene = genes_list[0]
+                #     print(f"else:[{gene}]")
+                #     Success.append(f"Gene {gene_name} was associated to {genes_list[0]}")
+                #     genes_list = []
+                bool_aa = False
+                break
+
+            elif bool_aa:
+                sequence += line.split()[0]
+    
+    return dict_gene, dict_seq, sequence, genes_list, bool_aa, Success
 
 def find_compounds_AAseq(model, list_of_enzymes):
     """
@@ -64,7 +106,6 @@ def find_compounds_AAseq(model, list_of_enzymes):
     for enzyme in tqdm(list_of_enzymes):
         aa = False
         ortho = False
-        ko = False
         url = "http://rest.kegg.jp/get/"
 
         reac_obj = model.reactions.get_by_id(enzyme[0])
@@ -76,10 +117,9 @@ def find_compounds_AAseq(model, list_of_enzymes):
 
         if r1.status_code==200:
             # The content is one long string: splitting with \n to iter on every line
-            info = str(r1.content).split('\'')[1].split('\\n')
+            info = r1.content.decode('utf8').split('\n')
 
             for line in info:
-
                 # The line with all compounds:
                 if 'EQUATION' in line:
                     eq = line.split("=")
@@ -88,11 +128,9 @@ def find_compounds_AAseq(model, list_of_enzymes):
 
                 # Line(s) with KEGG Orthology ID to test
                 elif 'ORTHOLOGY' in line or ortho:
-                    seq = ""
                     if ortho:
                         id = line.split()[0]
                         if id == 'DBLINKS' or id =='///':
-                            ko = True
                             Errors.append(f"\n[!]KEGG ID {enzyme[1]} has no corresponding KEGG Orthology ID for organism eco\n\n===\n")
                             break
                     else:
@@ -103,10 +141,9 @@ def find_compounds_AAseq(model, list_of_enzymes):
                     r2 = requests.get(url=url+id)
 
                     if r2.status_code==200:
-                        info = str(r2.content).split('\'')[1].split('\\n')
+                        info = r2.content.decode('utf8').split('\n')
 
                         for line in info:
-
                             # Line corresponding to the organism target (e.coli)
                             if 'ECO:' in line:
                                 
@@ -122,61 +159,42 @@ def find_compounds_AAseq(model, list_of_enzymes):
                                 
                                 #Gene ID comparison between the KEGG response and the model's gene names.
                                 for gID, gname in gID_gname:
-                                    if gname.lower() in genes or (len(genes) == 1 and genes_found == []):
-                                        Success.append(f"\n[>]Found {gname} gene id in reaction {reac_obj.name}. Adding its aa sequence to the dictionary.\n\n===\n")
-                                    
-                                        # Third request to get AA sequence from CDS ID
-                                        r3 = requests.get(url=url+"eco:"+gID)
-
-                                        if r3.status_code==200:
-                                            info = str(r3.content).split('\'')[1].split('\\n')
-
-                                            #Iterating over the lines of the api's response to select
-                                            #the ones containing aa sequence.
-                                            for line in info:
-
-                                                #First, we look for a gene ID:
-                                                if "NCBI-GeneID: " in line:
-                                                    gene_id_dict[enzyme[0]]["ncbigene"] = line.split(": ")[1]
-                                                elif "UniProt: " in line:
-                                                    gene_id_dict[enzyme[0]]["uniprot"] =  line.split(": ")[1]
-                                                #Add a check, outside of the loop, for when no gene is found.
-
-                                                if 'AASEQ' in line:
-                                                    aa = True
-                                                    
-                                                elif 'NTSEQ' in line:
-                                                    aaseq[seq] = (enzyme[0], gname)
-                                                    try:
-                                                        genes.remove(gname.lower())
-                                                        gene = gname.lower()
-                                                    except:
-                                                        gene = genes[0]
-                                                        Success.append(f"Gene {gname} was associated to {genes[0]}")
-                                                    aa = False
-                                                    break
-
-                                                elif aa:
-                                                    seq += line.split()[0]
+                                    if gname.lower() in genes:
+                                        response = get_sequence_from_gene(aa, reac_obj, genes, gname, gID, enzyme[0], seq, gene_id_dict, aaseq, url, Success)
+                                        gene_id_dict = response[0]
+                                        aaseq = response[1]
+                                        seq = response[2]
+                                        genes = response[3]
+                                        aa = response[4]
+                                        Success = response[5]
+                                        gene = gname.lower()
                                     else:
                                         genes_found.append(gID)
                                         continue
-                                break
-                
-                
 
+                            if '///' in line and (len(genes) == 1 and len(genes_found) == 1):                              
+                                gene = genes[0]
+                                response = get_sequence_from_gene(aa, reac_obj, genes, genes[0], genes_found[0], enzyme[0], seq, gene_id_dict, aaseq, url, Success)
+                                gene_id_dict = response[0]
+                                aaseq = response[1]
+                                seq = response[2]
+                                genes = response[3]
+                                aa = response[4]
+                                Success = response [5]
+                            
                 if seq != "":
                     if enzyme[1] not in dict_seq:
+                        if enzyme[0] == 'tkt1' or enzyme[0] == 'tkt2':
+                            print(seq)                        
                         dict_seq[enzyme[1]] = [{"substrates": sub, "products": prod, "enzyme":seq, "gene": gene}]
                     else:
                         dict_seq[enzyme[1]].append({"substrates": sub, "products": prod, "enzyme":seq, "gene": gene})
-                    # break
-                elif ko or genes == []:
-                    break
+                    seq = ""
                 elif ortho:
                     aa = False
                     #aa=False --> The function will try to find another KEGG orthology ID that contains ECO organism Gene IDS.        
-
+                if genes == []:
+                    break                
         else: 
             Errors.append(f"[!]KEGG ID {enzyme[1]} is not found in kegg.\n===")
 
