@@ -1,6 +1,6 @@
 # Catalytic project
 
-`model_catalytic.py` is a script adding informations into an sbml model such as KEGG ID and genes names, and preprocessing data of the model to create lists talen as argument for km predictions
+`model_catalytic.py` is a script adding informations into an sbml model such as KEGG ID and genes names, and preprocessing data of the model to create lists taken as argument for km and kcat predictions
 
 ## Requirements
 
